@@ -1,0 +1,20 @@
+PATH
+  remote: .
+  specs:
+    suploy-api (0.0.1)
+      excon
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    excon (0.33.0)
+    rake (10.3.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  bundler (~> 1.6)
+  excon
+  rake
+  suploy-api!
