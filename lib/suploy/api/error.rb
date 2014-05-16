@@ -4,6 +4,7 @@ module Suploy::Api::Error
   class ClientError < SuployApiError; end
   class UnauthorizedError < SuployApiError; end
   class NotFoundError < SuployApiError; end
+  class UnprocessableEntity < SuployApiError; end
   class ServerError < SuployApiError; end
   class UnexpectedResponseError < SuployApiError; end
   class TimeoutError < SuployApiError; end

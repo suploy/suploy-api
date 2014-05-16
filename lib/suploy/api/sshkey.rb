@@ -4,13 +4,22 @@ module Suploy
       include Suploy::Api::Base
 
       def self.create(name, content, opts = {}, conn = Suploy::Api.connection)
-        sshkey_json = conn.delete("/api/ssh_keys/#{id}")
+        body = {ssh_key:{title: name, content: content}}.to_json
+        sshkey_json = conn.post("/api/profiles/ssh_keys", {}, body: body)
         hash = Suploy::Api::Util.parse_json(sshkey_json) || {}
         new(conn, hash)
       end
 
+      def self.index(opts = {}, conn = Suploy::Api.connection)
+        sshkeys_json = conn.get("/api/profiles/ssh_keys")
+        sshkeys = Suploy::Api::Util.parse_json(sshkeys_json) || {}
+        sshkeys.map! do |k|
+          new(conn, k)
+        end
+      end
+
       def self.get(id, opts = {}, conn = Suploy::Api.connection)
-        sshkey_json = conn.get("/api/ssh_keys/#{id}")
+        sshkey_json = conn.get("/api/profiles/ssh_keys/#{id}")
         hash = Suploy::Api::Util.parse_json(sshkey_json) || {}
         new(conn, hash)
       end

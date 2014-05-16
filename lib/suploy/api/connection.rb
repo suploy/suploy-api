@@ -11,7 +11,7 @@ class Suploy::Api::Connection
   # Create a new Connection. This method takes a url (String) and options
   # (Hash). These are passed to Excon, so any options valid for `Excon.new`
   # can be passed here.
-  def initialize(url, opts)
+  def initialize(url, opts = {})
     case
     when !url.is_a?(String)
       raise ArgumentError, "Expected a String, got: '#{url}'"
@@ -48,11 +48,15 @@ class Suploy::Api::Connection
     raise ServerError, ex.message
   rescue Excon::Errors::Timeout => ex
     raise TimeoutError, ex.message
+  rescue Excon::Errors::UnprocessableEntity => ex
+    raise UnprocessableEntity, ex.message
   end
 
   # Delegate all HTTP methods to the #request.
   [:get, :put, :post, :delete].each do |method|
-    define_method(method) { |*args, &block| request(method, *args, &block) }
+    define_method(method) do |*args, &block| 
+      request(method, *args, &block)
+    end
   end
 
   def to_s
@@ -66,6 +70,7 @@ private
     query ||= {}
     opts ||= {}
     headers = opts.delete(:headers) || {}
+    headers.merge! Suploy::Api.headers
     content_type = 'application/json'
     user_agent = "Suploy/Suploy-API"
     {

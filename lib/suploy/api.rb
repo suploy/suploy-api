@@ -36,5 +36,26 @@ module Suploy
       @options = new_options
       reset_connection!
     end
+
+    def headers
+      @headers ||= {}
+    end
+
+    def headers=(new_headers)
+      @headers = new_headers
+      reset_connection!
+    end
+
+    def authorization(token)
+      @headers["Authorization"] = token
+    end
+
+    def reset_authorization
+      @headers.delete "Authorization"
+    end
+
+    module_function :connection, :reset_connection!, :url, :url=,
+                    :options, :options=, :headers, :headers=,
+                    :authorization, :reset_authorization
   end
 end
