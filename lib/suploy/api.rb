@@ -47,11 +47,11 @@ module Suploy
     end
 
     def authorization(token)
-      @headers["Authorization"] = token
+      headers["Authorization"] = token
     end
 
     def reset_authorization
-      @headers.delete "Authorization"
+      headers.delete "Authorization"
     end
 
     module_function :connection, :reset_connection!, :url, :url=,
