@@ -10,4 +10,8 @@ module Suploy::Api::Base
     end
     @connection, @info, @id = connection, hash, hash['id']
   end
+
+  def info
+    @info
+  end
 end
