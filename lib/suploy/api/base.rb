@@ -14,4 +14,8 @@ module Suploy::Api::Base
   def info
     @info
   end
+
+  def conn
+    @connection
+  end
 end
