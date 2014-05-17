@@ -25,7 +25,7 @@ module Suploy
       end
 
       def remove(opts = {})
-        conn.delete("/api/ssh_keys/#{id}", opts)
+        conn.delete("/api/profiles/ssh_keys/#{info["title"]}", opts)
         nil
       end
 
