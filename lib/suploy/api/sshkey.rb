@@ -18,8 +18,8 @@ module Suploy
         end
       end
 
-      def self.get(id, opts = {}, conn = Suploy::Api.connection)
-        sshkey_json = conn.get("/api/profiles/ssh_keys/#{id}")
+      def self.get(name, opts = {}, conn = Suploy::Api.connection)
+        sshkey_json = conn.get("/api/profiles/ssh_keys/#{name}")
         hash = Suploy::Api::Util.parse_json(sshkey_json) || {}
         new(conn, hash)
       end
