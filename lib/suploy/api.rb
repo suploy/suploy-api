@@ -8,8 +8,9 @@ module Suploy
     require 'suploy/api/base'
     require 'suploy/api/credentials'
     require 'suploy/api/connection'
-    require 'suploy/api/sshkey'
     require 'suploy/api/util'
+    require 'suploy/api/sshkey'
+    require 'suploy/api/app'
 
     def connection
       @connection ||= Connection.new(url, options)
