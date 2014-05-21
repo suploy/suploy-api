@@ -8,6 +8,8 @@ module Suploy
         app_json = conn.post("/api/apps", {}, body: body)
         hash = Suploy::Api::Util.parse_json(app_json) || {}
         new(conn, hash)
+      rescue Excon::Errors::UnprocessableEntity => e
+        handle_unprocessable e
       end
 
       def self.index(opts = {}, conn = Suploy::Api.connection)
@@ -22,6 +24,10 @@ module Suploy
         app_json = conn.get("/api/apps/#{name}")
         hash = Suploy::Api::Util.parse_json(app_json) || {}
         new(conn, hash)
+      end
+
+      def self.handle_unprocessable(exception)
+        p exception
       end
 
       def remove(opts = {})

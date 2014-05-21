@@ -48,8 +48,6 @@ class Suploy::Api::Connection
     raise ServerError, ex.message
   rescue Excon::Errors::Timeout => ex
     raise TimeoutError, ex.message
-  rescue Excon::Errors::UnprocessableEntity => ex
-    raise UnprocessableEntity, ex.message
   end
 
   # Delegate all HTTP methods to the #request.
