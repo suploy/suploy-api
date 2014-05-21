@@ -9,7 +9,7 @@ module Suploy
         hash = Suploy::Api::Util.parse_json(sshkey_json) || {}
         new(conn, hash)
       rescue Excon::Errors::UnprocessableEntity => e
-        handle_unprocessable e
+        Suploy::Api::Error::Helpers.handle_unprocessable e
       end
 
       def self.index(opts = {}, conn = Suploy::Api.connection)
@@ -24,20 +24,8 @@ module Suploy
         sshkey_json = conn.get("/api/profiles/ssh_keys/#{name}")
         hash = Suploy::Api::Util.parse_json(sshkey_json) || {}
         new(conn, hash)
-      rescue Suploy::Api::Error::NotFound
-        raise SshKeyNotFound.new "The SSH Key '#{name}' does not exist."
-      end
-
-      def self.handle_unprocessable(exception)
-        errors = JSON.parse(exception.response.body)
-        full_errors = []
-        errors.each do |k, v|
-          # each argument has an array of errors
-          v.each do |e|
-            full_errors << "#{k.capitalize} #{e}"
-          end
-        end
-        raise Suploy::Api::Error::UnprocessableEntity.new full_errors.join "\n"
+      rescue NotFoundError
+        raise NotFoundError.new "The SSH Key '#{name}' does not exist."
       end
 
       def remove(opts = {})

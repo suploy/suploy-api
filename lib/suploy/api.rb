@@ -5,6 +5,7 @@ module Suploy
   module Api
     require 'suploy/api/version'
     require 'suploy/api/error'
+    require 'suploy/api/error/helpers'
     require 'suploy/api/base'
     require 'suploy/api/credentials'
     require 'suploy/api/connection'

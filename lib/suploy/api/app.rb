@@ -9,7 +9,7 @@ module Suploy
         hash = Suploy::Api::Util.parse_json(app_json) || {}
         new(conn, hash)
       rescue Excon::Errors::UnprocessableEntity => e
-        handle_unprocessable e
+        Suploy::Api::Error::Helpers.handle_unprocessable e
       end
 
       def self.index(opts = {}, conn = Suploy::Api.connection)
@@ -24,10 +24,8 @@ module Suploy
         app_json = conn.get("/api/apps/#{name}")
         hash = Suploy::Api::Util.parse_json(app_json) || {}
         new(conn, hash)
-      end
-
-      def self.handle_unprocessable(exception)
-        p exception
+      rescue NotFoundError
+        raise NotFoundError.new "The app '#{name}' does not exist."
       end
 
       def remove(opts = {})
